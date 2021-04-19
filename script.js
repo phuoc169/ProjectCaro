@@ -173,3 +173,48 @@ function announceWinner(winner) {
     undoTurns.pop();
   }
 }
+function checkWinner() {
+  var filled = true;
+  for (var i = 0; i < CellElements.length; i++) {
+    if (CellElements[i].classList[2] == undefined) filled = false;
+    if (CellElements[i].classList[2] !== undefined) {
+      if (
+        (CellElements[i].classList[2] == CellElements[i + 1].classList[2] &&
+          CellElements[i + 1].classList[2] == CellElements[i + 2].classList[2] &&
+          CellElements[i + 2].classList[2] == CellElements[i + 3].classList[2] &&
+          CellElements[i + 3].classList[2] == CellElements[i + 4].classList[2]) ||
+        (CellElements[i].classList[2] == CellElements[i + width].classList[2] &&
+          CellElements[i + width].classList[2] == CellElements[i + 2 * width].classList[2] &&
+          CellElements[i + 2 * width].classList[2] == CellElements[i + 3 * width].classList[2] &&
+          CellElements[i + 3 * width].classList[2] == CellElements[i + 4 * width].classList[2]) ||
+        (CellElements[i].classList[2] == CellElements[i + 1 + width].classList[2] &&
+          CellElements[i + 1 + width].classList[2] == CellElements[i + 2 + 2 * width].classList[2] &&
+          CellElements[i + 2 + 2 * width].classList[2] == CellElements[i + 3 + 3 * width].classList[2] &&
+          CellElements[i + 3 + 3 * width].classList[2] == CellElements[i + 4 + 4 * width].classList[2]) ||
+        (CellElements[i].classList[2] == CellElements[i - 1 + width].classList[2] &&
+          CellElements[i - 1 + width].classList[2] == CellElements[i - 2 + 2 * width].classList[2] &&
+          CellElements[i - 2 + 2 * width].classList[2] == CellElements[i - 3 + 3 * width].classList[2] &&
+          CellElements[i - 3 + 3 * width].classList[2] == CellElements[i - 4 + 4 * width].classList[2])
+      ) {
+        gameOver = true;
+        announceWinner(CellElements[i].classList[2]);
+      }
+    }
+  }
+  if (filled) {
+    announceWinner(2);
+  }
+}
+function restart()
+{
+  CellElements.forEach(cell=>{
+      cell.classList.remove('x','o');
+  })
+  index=0;
+  CellElements.forEach(cell=>{
+      cell.classList.add(index)
+      cell.addEventListener('click',handleClick,{once : true})
+      index++;
+  })
+  document.getElementById('WinningMesage').style.display='none';
+}
